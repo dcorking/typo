@@ -7,9 +7,9 @@ Feature: Merge Articles
     Given the blog is set up
     And I am logged into the admin panel
 
-  Scenario: A non-admin cannot merge two articles
-
   Scenario: When articles are merged, the merged article should contain the text of both previous articles
+    When I merge two articles
+    Then the first article contains the text of both
 
   Scenario: When articles are merged, the merged article should have one author 
 
