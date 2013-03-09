@@ -11,8 +11,6 @@ Feature: Merge Articles
     When I drop admin privileges
     And I edit an article
     Then I don't see a merge form
-    And when I create a new article
-    Then I don't see a merge form
     And a submission of the merge URI must be rejected.
 
   Scenario: When articles are merged, the merged article should contain the text of both previous articles
@@ -35,3 +33,7 @@ Feature: Merge Articles
   Scenario: The form field containing the ID of the article to merge with must have the HTML attribute name set to merge_with
     When I edit an article
     Then the merge ID field must have the attribute merge_with
+
+  Scenario: The merge interface should not be presented for new articles
+    When I create a new article
+    Then I don't see a merge form
