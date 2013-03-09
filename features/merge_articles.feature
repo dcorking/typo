@@ -7,14 +7,31 @@ Feature: Merge Articles
     Given the blog is set up
     And I am logged into the admin panel
 
+  Scenario: A non-admin cannot merge two articles
+    When I drop admin privileges
+    And I edit an article
+    Then I don't see a merge form
+    And when I create a new article
+    Then I don't see a merge form
+    And a submission of the merge URI must be rejected.
+
   Scenario: When articles are merged, the merged article should contain the text of both previous articles
     When I merge two articles
     Then the first article contains the text of both
 
   Scenario: When articles are merged, the merged article should have one author 
+    When I merge two articles
+    Then the merged article has one author
 
   Scenario: Comments on each of the two original articles need to all carry over and point to the new, merged article
+    When I merge two articles
+    Then the merged article has all the comments of the first article
+    And the merged article has all the comments of the second article.
 
   Scenario: The title of the new article should be the title from either one of the merged articles.
+    When I merge two articles
+    Then the merged article has the title of one of the predecessors.
 
   Scenario: The form field containing the ID of the article to merge with must have the HTML attribute name set to merge_with
+    When I edit an article
+    Then the merge ID field must have the attribute merge_with
