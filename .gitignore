@@ -23,3 +23,8 @@ public/cache/*
 .rbenv-version
 bin/
 .bundle/
+screenlog*
+hardcopy*
+db_development
+db_test
+db_test-journal
