@@ -727,16 +727,3 @@ describe ArticlesController, "assigned keywords" do
     assigns(:keywords).should == "typo, is, amazing"
   end
 end
-
-describe ArticlesController, "article merging" do
-  before do
-    @blog = Factory(:blog)
-    @article = Factory(:article)
-    @article2 = Factory(:article)
-  end
-
-  it "should display a merge instruction in the view" do
-   post 'edit', :id => @article.id
-    response.should render_partial(:merge)
-  end
-end
