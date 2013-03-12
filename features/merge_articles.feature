@@ -11,7 +11,7 @@ Feature: Merge Articles
     When I drop admin privileges
     And I edit an article
     Then I don't see a merge form
-    And a submission of the merge URI must be rejected.
+    And a submission of the merge URI must be rejected
 
   Scenario: When articles are merged, the merged article should contain the text of both previous articles
     When I merge two articles
@@ -24,15 +24,17 @@ Feature: Merge Articles
   Scenario: Comments on each of the two original articles need to all carry over and point to the new, merged article
     When I merge two articles
     Then the merged article has all the comments of the first article
-    And the merged article has all the comments of the second article.
+    And the merged article has all the comments of the second article
 
   Scenario: The title of the new article should be the title from either one of the merged articles.
     When I merge two articles
-    Then the merged article has the title of one of the predecessors.
+    Then the merged article has the title of one of the predecessors
 
-  Scenario: The form field containing the ID of the article to merge with must have the HTML attribute name set to merge_with
+# For autograding
+# The form field containing the ID of the article to merge with must have the HTML attribute name set to merge_with
+  Scenario: The merge form contains an item named 'merge_with'
     When I edit an article
-    Then the merge ID field must have the attribute merge_with
+    Then the "Article ID" field should have the name "merge_with"
 
   Scenario: The merge interface should not be presented for new articles
     When I create a new article

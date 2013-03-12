@@ -1,19 +1,10 @@
-When /^I edit a[n] "(.*?)"$/ do
-  # edit an article, comment etc
+When /^I edit an article$/ do
   # depends on article 1 existing in the scenario, as used in merge_articles.feature
   # TODO factor this out to a helper method  in support/world_extensions.rb
-  if content = "article"
-    visit '/admin/content/1/edit'
-  else 
-    pending # I don't need other content types yet
+  visit '/admin/content/edit/1'
 end
 
-When /^I create a new "(.*?)"$/ do |content|
-  # create a new article, comment etc
+When /^(?:|I) create a new article$/ do
   # TODO factor this out to a helper method in support/world_extensions.rb
-  if content = "article"
-    visit '/admin/content/new'
-  else 
-    pending # I don't need other content types yet
-  end
+  visit '/admin/content/new'
 end
