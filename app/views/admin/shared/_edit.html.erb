@@ -1,6 +1,11 @@
 <% className = form_action.delete(:class) %>
-<%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
+
+  <%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
 
   <%= render :partial => "form" %>
 
 <% end %>
+
+<% merge_permitted = (form_action[:id] != nil) && @current_user.admin?  %>
+
+<%= if merge_permitted ; render :partial => "merge"; end %>
