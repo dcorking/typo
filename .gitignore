@@ -6,7 +6,6 @@ db/schema.rb
 .*.swp
 .*.swo
 .DS_Store
-.rspec
 installer/rails_installer.yml
 #/public/files
 #/public/images/theme
@@ -28,3 +27,5 @@ hardcopy*
 db_development
 db_test
 db_test-journal
+/.emacs.desktop
+/.emacs.desktop.lock
