@@ -44,7 +44,6 @@ end
 
 Then /^I don\'t see a merge form$/ do
   # a view has been retrieved
-  debugger
   page.should_not have_content 'Merge Articles'
 end
 
