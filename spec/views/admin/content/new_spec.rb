@@ -36,7 +36,7 @@ describe "admin/content/new.html.erb" do
   end
 
   it "doesn't render the article merge form to a non-admin" do
-    #FIXME this passes when the feature isn't implemented
+    pending 'not yet coded in app'
     #FIXME I don't think this should be the view's responsibility
     #TODO factor the next line out, as it is common to most of these tests
     assign(:macros, []); assign(:resources, []); assign(:images, [])
@@ -49,23 +49,20 @@ describe "admin/content/new.html.erb" do
     rendered.should_not contain 'Merge Articles'
   end
 
-  it "must show the article merge form to an admin on edit" do
+  it "must show the article merge form to an admin on edit (unit test)" do
     assign(:macros, []); assign(:resources, []); assign(:images, [])
-    old_article = stub_model(Article, :id => 6)
-    pending
-    # rendering this causes a routing error
-    # seems to route like this:
-    #    No route matches {:controller=>"admin/test", :action=>"destroy", :id=>6}
-    # render
-    # rendered.should contain 'Article ID'
-    # rendered.should contain 'Merge Articles'
-    #TODO stub out partial 'admin/content/merge'
+    article = stub_model(Article, :id => 6)
+    stub_template "admin/shared/_merge.html.erb" => "Merge Articles Stub<br />"
+    render
+    rendered.should contain 'Merge Articles Stub'
   end
 
-  it "must not show the article merge to an admin on new" do
+  it "must not show the article merge to an admin on new (unit test)" do
+    pending
     assign(:macros, []); assign(:resources, []); assign(:images, [])
+    # article is new
+    stub_template "admin/content/_merge.html.erb" => "Merge Articles<br />"
     render
-    rendered.should_not contain 'Article ID'
     rendered.should_not contain 'Merge Articles'
   end
 end
