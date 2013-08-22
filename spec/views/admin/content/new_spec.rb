@@ -75,4 +75,25 @@ describe "admin/content/new.html.erb" do
     assert_select "form", 2
   end
 
+  it "will, for article edits, use the put method in the merge form (functional test)" do
+    assign(:macros, []); assign(:resources, []); assign(:images, [])
+    # article exists so it is being edited
+    @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
+    render
+    forms = css_select('form') # should be 2 forms, second will be merge form
+    merge_form_text = forms[1].select('input')[1].to_s
+    merge_form_text.should match /.*method.*put.*/
+    # or try this funky alternative
+    # assert forms[1].match(:descendant => {:tag => 'input', :attributes => {:name => '_method'}})
+  end
+
+  it "will, for article edits, have an Article ID label in the merge form (functional test)" do
+    assign(:macros, []); assign(:resources, []); assign(:images, [])
+    # article exists so it is being edited
+    @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
+    render
+    forms = css_select('form') # should be 2 forms, second will be merge form
+    forms[1].should match(:descendant => {:tag => 'label', :attributes => {:for => 'merge_id'}, :child => /Article ID/ })
+  end
+
 end
