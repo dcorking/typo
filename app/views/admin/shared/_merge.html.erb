@@ -2,8 +2,8 @@
   <h4><%= _("Merge Articles") %></h4>
   <%= form_tag(admin_content_path(:merge, :id), :method => "put") do%>
     <%= label_tag(:merge_id, "Article ID")  %>
+    <%= text_field_tag(:merge_with) %>
     <% if false %>
-      <%= text_field_tag(:merge_with) %>
       <%= submit_tag("Merge") %>
     <% end %>
   <% end %>
