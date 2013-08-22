@@ -5,4 +5,8 @@
 
 <% end %>
 
-<%= render :partial => "admin/shared/merge" %>
+<% if @_action_name == 'edit' %>
+
+   <%= render :partial => "admin/shared/merge" %>
+
+<% end %>

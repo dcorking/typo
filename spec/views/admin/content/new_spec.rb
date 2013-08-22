@@ -51,17 +51,18 @@ describe "admin/content/new.html.erb" do
 
   it "must show the article merge form to an admin on edit (unit test)" do
     assign(:macros, []); assign(:resources, []); assign(:images, [])
-    article = stub_model(Article, :id => 6)
+    article = stub_model(Article, :id => 6) 
+    # article exists so it is being edited
+    @_action_name = 'edit'
     stub_template "admin/shared/_merge.html.erb" => "Merge Articles Stub<br />"
     render
     rendered.should contain 'Merge Articles Stub'
   end
 
   it "must not show the article merge to an admin on new (unit test)" do
-    pending
     assign(:macros, []); assign(:resources, []); assign(:images, [])
     # article is new
-    stub_template "admin/content/_merge.html.erb" => "Merge Articles<br />"
+    stub_template "admin/shared/_merge.html.erb" => "Merge Articles Stub<br />"
     render
     rendered.should_not contain 'Merge Articles'
   end
