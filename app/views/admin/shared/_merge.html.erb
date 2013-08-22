@@ -3,8 +3,6 @@
   <%= form_tag(admin_content_path(:merge, :id), :method => "put") do%>
     <%= label_tag(:merge_id, "Article ID")  %>
     <%= text_field_tag(:merge_with) %>
-    <% if false %>
-      <%= submit_tag("Merge") %>
-    <% end %>
+    <%= submit_tag("Merge") %>
   <% end %>
 </div>

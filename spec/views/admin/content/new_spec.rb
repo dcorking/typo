@@ -93,6 +93,7 @@ describe "admin/content/new.html.erb" do
     @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
     render
     forms = css_select('form') # should be 2 forms, second will be merge form
+    # should this label be for 'merge_id' or 'merge_with' ?
     forms[1].should match(:descendant => {:tag => 'label', :attributes => {:for => 'merge_id'}, :child => /Article ID/ })
   end
 
@@ -103,6 +104,15 @@ describe "admin/content/new.html.erb" do
     render
     forms = css_select('form') # should be 2 forms, second will be merge form
     forms[1].should match(:descendant => {:tag => 'input', :attributes => {:type => 'text', :name => 'merge_with'}})
+  end
+
+  it "will, for article edits, have a button captioned 'Merge' to submit a merge form (functional test)" do
+    assign(:macros, []); assign(:resources, []); assign(:images, [])
+    # article exists so it is being edited
+    @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
+    render
+    forms = css_select('form') # should be 2 forms, second will be merge form
+    forms[1].should match(:descendant => {:tag => 'input', :attributes => {:type => 'submit', :value => 'Merge'}})
   end
 
 end
