@@ -53,7 +53,7 @@ describe "admin/content/new.html.erb" do
     assign(:macros, []); assign(:resources, []); assign(:images, [])
     article = stub_model(Article, :id => 6) 
     # article exists so it is being edited
-    @_action_name = 'edit'
+    @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
     stub_template "admin/shared/_merge.html.erb" => "Merge Articles Stub<br />"
     render
     rendered.should contain 'Merge Articles Stub'
@@ -66,4 +66,13 @@ describe "admin/content/new.html.erb" do
     render
     rendered.should_not contain 'Merge Articles'
   end
+
+  it "will, for article edits, show two forms (functional test)" do
+    assign(:macros, []); assign(:resources, []); assign(:images, [])
+    # article exists so it is being edited
+    @_action_name = 'edit' # FIXME this line smells like the spec is in the wrong place 
+    render
+    assert_select "form", 2
+  end
+
 end
