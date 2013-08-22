@@ -1,1 +1,4 @@
 --debug
+--colour
+--format progress
+--profile
