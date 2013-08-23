@@ -24,7 +24,7 @@ Feature: Create and edit categories
 
   Scenario: Edit a category
     Given category CS169 exists
-    When I find "CS169" and follow its "Edit" link
+    When I follow "CS169"
     And I fill in "Description" with "Fun and Saas"
     And I press "Save"
     Then I should see "Categories"
