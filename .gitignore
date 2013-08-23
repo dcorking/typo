@@ -23,3 +23,8 @@ public/cache/*
 .rbenv-version
 bin/
 .bundle/
+/.emacs.desktop
+/.emacs.desktop.lock
+/db/db_development
+/db/db_test
+/screenlog.0
