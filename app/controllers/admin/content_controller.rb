@@ -114,8 +114,9 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def merge
-    # redirect_to :action => 'edit', :id => @id
-    redirect_to :action => 'index'
+    @article = Article.find(params[:id])
+    @article.merge_with(params[:merge_id])
+    redirect_to :action => 'edit', :id => @article.id
   end
 
   protected
