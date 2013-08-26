@@ -124,5 +124,24 @@ describe "admin/content/new.html.erb" do
       forms = css_select('form') # should be 2 forms, second will be merge form
       forms[1].should match(:descendant => {:tag => 'input', :attributes => {:type => 'submit', :value => 'Merge'}})
     end
+
+    it "will link to the merge action for the current article" do
+      pending %Q{this causes
+     Failure/Error: render
+     ActionView::Template::Error:
+       No route matches {:controller=>"admin/test", :action=>"destroy", :id=>1005}
+     # ./app/helpers/admin/base_helper.rb:51:in `link_to_destroy_with_profiles'
+     # ./app/views/admin/content/_form.html.erb:12:in `_app_views_admin_content__form_html_erb__104610851_105449690_144272186'}
+ 
+      assign(:macros, []); assign(:resources, []); assign(:images, [])
+      # article exists so it is being edited
+      assign(:_action_name, 'edit') 
+      article = stub_model(Article)
+      assign(:article, article)
+      debugger
+      render
+      render :partial => 'admin/shared/merge'
+      assert_select("form[action=/admin/content/merge/#{article.id}]") 
+    end
   end
 end
