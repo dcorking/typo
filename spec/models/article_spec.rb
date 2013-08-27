@@ -630,15 +630,23 @@ describe Article do
     end
   end
 
-  describe "merge_with method" do
+  describe 'merge functionality' do
     before :each do
       @first_article = Factory(:article, :body => 'first')
       @second_article = Factory(:article, :body => 'second')
     end
-    it "will combine the text of two articles" do
-      @first_article.merge_with(@second_article.id)
-      @first_article.body.should include 'first'
-      expect(@first_article.body).to include 'second'
+    describe "merge_with method" do
+      it "will combine the text of two articles" do
+        @first_article.merge_with(@second_article.id)
+        @first_article.body.should include 'first'
+        expect(@first_article.body).to include 'second'
+      end
+    end
+    describe '#merge_body_with article2'  do
+      it "will append article2's body to its own" do
+        @first_article.merge_body_with @second_article
+        expect(@first_article.body).to match 'firstsecond'
+      end
     end
   end
 end

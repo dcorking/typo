@@ -418,7 +418,11 @@ class Article < Content
 
   def merge_with(merge_id)
     second = Article.find_by_id(merge_id)
-    self.body = self.body + second.body
+    self.merge_body_with second
+  end
+
+  def merge_body_with second
+    self.body += second.body
   end
 
   protected

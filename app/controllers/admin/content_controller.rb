@@ -114,10 +114,10 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def merge
-    @article = Article.find(params[:id])
-    @article.merge_with(params[:merge_with])
-    @article.save!
-    redirect_to :action => 'edit', :id => @article.id
+    article = Article.find(params[:id])
+    article.merge_with(params[:merge_with])
+    article.save!
+    redirect_to article.permalink_url
   end
 
   protected
