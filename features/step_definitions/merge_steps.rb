@@ -15,13 +15,13 @@ end
 When /^I create two unique articles$/ do
   # This isn't used in scenarios, so it should be extracted as a method.
   # It is used in 'When I merge two articles'
-    Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnAuthor", :body => "There was one article", :guid => "1bf3e2ca-ed7b-4562-8a4a-8ce8438822c9", :id => 2, :permalink => "article-one", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "First article", :type => "Article", :user_id => 1)
-  Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnotherAuthor", :body => "There was another article", :guid => "1bf3e2ca-ed7b-4562-8a4a-8ce8438822ca", :id => 3, :permalink => "article-two", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "Second article", :type => "Article", :user_id => 1)
+  @first_article = Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnAuthor", :body => "There was one article", :permalink => "article-one", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "First article", :type => "Article", :user_id => 1)
+  @second_article = Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnotherAuthor", :body => "There was another article",  :permalink => "article-two", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "Second article", :type => "Article", :user_id => 1)
 end
 
 When /^I merge them into the first$/ do
-  visit 'admin/content/edit/1'
-  fill_in('merge_with', :with => '2')
+  visit "admin/content/edit/#{@first_article.id}"
+  fill_in('merge_with', :with => @second_article.id)
   click_button('Merge')
 end
 

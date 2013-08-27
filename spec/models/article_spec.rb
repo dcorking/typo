@@ -628,7 +628,17 @@ describe Article do
         article.should be == already_exist_article
       end
     end
+  end
 
+  describe "merge_with method" do
+    before :each do
+      @first_article = Factory(:article, :body => 'first')
+      @second_article = Factory(:article, :body => 'second')
+    end
+    it "will combine the text of two articles" do
+      @first_article.merge_with(@second_article.id)
+      @first_article.body.should include 'first'
+      expect(@first_article.body).to include 'second'
+    end
   end
 end
-
