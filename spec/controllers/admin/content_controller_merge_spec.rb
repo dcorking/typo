@@ -16,22 +16,10 @@ describe Admin::ContentController do
        Article.any_instance.should_receive(:merge_with).with(@second_article.id)
        put :merge, {:id => @article.id, :merge_with => @second_article.id}
      end
-     it 'will redirect to the edit form of the first article' do
-       Article.any_instance.stub(:merge_with)
-       put :merge, {:id => @article.id, :merge_with => @second_article.id}
-       response.should redirect_to ('/admin/content/edit/' + @article.id.to_s)
-     end
      it 'will redirect' do
        Article.any_instance.stub(:merge_with)
        put :merge, {:id => @article.id, :merge_with => @second_article.id}
        expect(response).to be_redirect
-     end
-     it 'will redirect to a display of the first article (integration)' do
-       require "rack/test"
-       Article.any_instance.stub(:merge_with)
-       put :merge, {:id => @article.id, :merge_with => @second_article.id}
-       follow_redirect!
-       expect(response).to include 'a first articleasecond article'
      end
      it 'will send save! to the model (unit test)' do
        # This specifies the exact implementation, but otherwise I got tied up in knots
