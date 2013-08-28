@@ -420,11 +420,22 @@ class Article < Content
     return nil if self.id == merge_id.to_i
     second = Article.find_by_id(merge_id)
     self.merge_body_with second
+    self.clone_comments_from(second)
+    second.destroy
+    self.save!
     self
   end
 
   def merge_body_with second
     self.body += second.body
+  end
+
+  def clone_comments_from another_article
+    another_article.comments(true).each do |comment|
+      self.comments << comment.clone
+    end
+    another_article.save!
+    self.save!
   end
 
   protected

@@ -16,7 +16,6 @@ Feature: Merge Articles
     Then the merged article has one author
 
   Scenario: Comments on each of the two original articles need to all carry over and point to the new, merged article
-    When PENDING
     When I merge two articles
     Then the merged article has all the comments of the first article
     And the merged article has all the comments of the second article

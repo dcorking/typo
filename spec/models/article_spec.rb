@@ -1,7 +1,6 @@
 # coding: utf-8
 require 'spec_helper'
 
-
 describe Article do
 
   before do
@@ -632,17 +631,44 @@ describe Article do
   end
 
   describe 'merge functionality' do
+
+    def comment_text(merged_article)
+      text = ''
+      merged_article.comments(true).each do |comment|
+        text += comment.body
+      end
+      text
+    end
+
     before :each do
       @first_article = Factory(:article, 
                                :body => 'first', 
                                :author => 'an author',
                                :title => 'a subject')
+      @comment1 = @first_article.comments.create!({:author => 'Bob',
+                                                    :body => 'nice post',
+                                                    :ip => '1.2.3.4'}) 
+      @comment2 = @first_article.comments.create!({:author => 'Alice',
+                                                    :body => 'interesting',
+                                                    :ip => '1.2.3.4'}) 
+
       @second_article = Factory(:article,
                                 :body => 'second',
                                 :author => 'a writer',
                                 :title => 'a topic')
+      @comment3 = @second_article.comments.create!({:author => 'Charlie',
+                                                     :body => 'me too',
+                                                     :ip => '1.2.3.4'}) 
+      @comment4 = @second_article.comments.create!({:author => 'Dierdre',
+                                                     :body => 'I recommend it',
+                                                     :ip => '1.2.3.4'}) 
+
     end
     describe "#merge_with" do
+      it 'is nil when both articles are the same' do
+        return_value = @first_article.merge_with(@first_article.id)
+        expect(return_value).to be_nil
+      end
       context 'when both articles exist and are not the same' do
         before :each do
           @merged_article = @first_article.merge_with(@second_article.id)
@@ -658,19 +684,40 @@ describe Article do
           it "has the same title as the first" do
             expect(@merged_article.title).to eq @first_article.title
           end
-          it 'is nil when both articles are the same' do
-          return_value = @first_article.merge_with(@first_article.id)
-          expect(return_value).to be_nil
-        end
-
+          it 'includes the comments of both articles' do
+            expect(comment_text(@merged_article)).to include 'nice post'
+            expect(comment_text(@merged_article)).to include 'interesting'
+            expect(comment_text(@merged_article)).to include 'me too'
+            expect(comment_text(@merged_article)).to include 'I recommend it'
+          end
         end
       end
-      describe '#merge_body_with article2'  do
-        it "will append article2's body to its own" do
-          @first_article.merge_body_with @second_article
-          expect(@first_article.body).to match 'firstsecond'
+    end
+    describe '#merge_body_with article2'  do
+      it "will append article2's body to its own" do
+        @first_article.merge_body_with @second_article
+        expect(@first_article.body).to match 'firstsecond'
+      end
+    end
+    describe '#clone_comments_from another_article' do
+      it 'will clone all comments of another_article as my own' do
+        cache_of_comment_texts = []
+        @second_article.comments.each { |c| cache_of_comment_texts << c.body }
+        @first_article.clone_comments_from @second_article
+        cache_of_comment_texts.each do |text|
+          expect(@first_article.comments.find_by_body(text)).not_to be nil
+          expect(comment_text(@first_article)).to include text
         end
+      end
+    end
+    describe 'comment.article = another_article' do
+      it "will delete my asssociation with a comment" do
+        com = @second_article.comments.first
+        com.article = @first_article
+        com.save!
+        expect(@second_article.comments.first).not_to eq com
       end
     end
   end
 end
+

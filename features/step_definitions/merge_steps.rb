@@ -21,7 +21,23 @@ When /^I create two unique articles$/ do
   # This isn't used in scenarios, so it should be extracted as a method.
   # It is used in 'When I merge two articles'
   @first_article = Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnAuthor", :body => "There was one article", :permalink => "article-one", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "First article", :type => "Article", :user_id => 1)
+  @comment1 = Comment.create!({:author => 'Bob',
+                                :article => @first_article,
+                                :body => 'nice post',
+                                :ip => '1.2.3.4'}) 
+  @comment2 = Comment.create!({:author => 'Alice',
+                                :article => @first_article,
+                                :body => 'interesting',
+                                :ip => '1.2.3.4'}) 
   @second_article = Article.create!(:allow_comments => true, :allow_pings => false, :author => "AnotherAuthor", :body => "There was another article",  :permalink => "article-two", :post_type => "read", :published => true, :published_at => "2012-06-09 21:51:55 UTC", :settings => {"password"=>nil}, :state => "published", :text_filter_id => 5, :title => "Second article", :type => "Article", :user_id => 1)
+  @comment3 = Comment.create!({:author => 'Charlie',
+                                :article => @second_article,
+                                :body => 'me too',
+                                :ip => '1.2.3.4'}) 
+  @comment4 = Comment.create!({:author => 'Dierdre',
+                                :article => @second_article,
+                                :body => 'I recommend it',
+                                :ip => '1.2.3.4'}) 
 end
 
 When /^I merge them into the first$/ do
@@ -37,8 +53,8 @@ When /^I merge two articles$/ do
     And I merge them into the first}
 end
 
-Then /^the merged article has all the comments of the first article$/ do |article|
-  pending 'not implemented'
+Then /^the merged article has all the comments of the first article$/ do
+  pending
 end
 
 Then /^the merged article has all the comments of the second article$/ do
