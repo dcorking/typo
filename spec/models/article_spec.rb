@@ -1,6 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
+
 describe Article do
 
   before do
@@ -100,7 +101,7 @@ describe Article do
   it "test_permalink_with_title" do
     article = Factory(:article, :permalink => 'article-3', :published_at => Time.utc(2004, 6, 1))
     assert_equal(article,
-                Article.find_by_permalink({:year => 2004, :month => 06, :day => 01, :title => "article-3"}) )
+                 Article.find_by_permalink({:year => 2004, :month => 06, :day => 01, :title => "article-3"}) )
     assert_raises(ActiveRecord::RecordNotFound) do
       Article.find_by_permalink :year => 2005, :month => "06", :day => "01", :title => "article-5"
     end
@@ -185,7 +186,7 @@ describe Article do
   it "test_send_multiple_pings" do
   end
   
-  describe "Testing redirects" do
+   describe "Testing redirects" do
     it "a new published article gets a redirect" do
       a = Article.create(:title => "Some title", :body => "some text", :published => true)
       a.redirects.first.should_not be_nil
@@ -275,7 +276,7 @@ describe Article do
 
   it "test_future_publishing" do
     assert_sets_trigger(Article.create!(:title => 'title', :body => 'body',
-      :published => true, :published_at => Time.now + 4.seconds))
+                                        :published => true, :published_at => Time.now + 4.seconds))
   end
 
   it "test_future_publishing_without_published_flag" do
@@ -399,8 +400,8 @@ describe Article do
   describe 'body_and_extended' do
     before :each do
       @article = Article.new(
-        :body => 'basic text',
-        :extended => 'extended text to explain more and more how Typo is wonderful')
+                             :body => 'basic text',
+                             :extended => 'extended text to explain more and more how Typo is wonderful')
     end
 
     it 'should combine body and extended content' do
@@ -632,25 +633,43 @@ describe Article do
 
   describe 'merge functionality' do
     before :each do
-      @first_article = Factory(:article, :body => 'first')
-      @second_article = Factory(:article, :body => 'second')
+      @first_article = Factory(:article, 
+                               :body => 'first', 
+                               :author => 'an author',
+                               :title => 'a subject')
+      @second_article = Factory(:article,
+                                :body => 'second',
+                                :author => 'a writer',
+                                :title => 'a topic')
     end
     describe "#merge_with" do
-      before :each do
-        debugger
-        @merged_article = @first_article.merge_with(@second_article.id)
-      end
-      describe 'returns a merged article that' do
-        it "combines the bodies of two articles" do
-          expect(@merged_article.body).to include 'first'
-          expect(@merged_article.body).to include 'second'
+      context 'when both articles exist and are not the same' do
+        before :each do
+          @merged_article = @first_article.merge_with(@second_article.id)
+        end
+        describe 'returns a merged article that' do
+          it "combines the bodies of two articles" do
+            expect(@merged_article.body).to include 'first'
+            expect(@merged_article.body).to include 'second'
+          end
+          it "has the same author as the first" do
+            expect(@merged_article.author).to eq @first_article.author
+          end
+          it "has the same title as the first" do
+            expect(@merged_article.title).to eq @first_article.title
+          end
+          it 'is nil when both articles are the same' do
+          return_value = @first_article.merge_with(@first_article.id)
+          expect(return_value).to be_nil
+        end
+
         end
       end
-    end
-    describe '#merge_body_with article2'  do
-      it "will append article2's body to its own" do
-        @first_article.merge_body_with @second_article
-        expect(@first_article.body).to match 'firstsecond'
+      describe '#merge_body_with article2'  do
+        it "will append article2's body to its own" do
+          @first_article.merge_body_with @second_article
+          expect(@first_article.body).to match 'firstsecond'
+        end
       end
     end
   end

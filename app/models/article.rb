@@ -417,6 +417,7 @@ class Article < Content
   end
 
   def merge_with(merge_id)
+    return nil if self.id == merge_id.to_i
     second = Article.find_by_id(merge_id)
     self.merge_body_with second
     self

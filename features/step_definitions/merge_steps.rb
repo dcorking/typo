@@ -63,3 +63,14 @@ Then /^the "([^"]*)" field should have the name "([^"]*)"$/ do |field, attr|
   pending 'This finder is seemingly broken, though the Article ID field is implemented and named'
   find_field(field)['name'].should have_attribute(attr)
 end
+
+Then /^I request a merge with the same article$/ do
+  fill_in 'merge_with', :with => @an_article.id
+  click_button 'Merge'
+end
+
+Then /^the article\'s body is not duplicated$/ do
+  visit '/admin/content'
+  click_link @an_article.title
+  expect(page.text).not_to include 'There was one articleThere was one article'
+end

@@ -34,3 +34,8 @@ Feature: Merge Articles
   Scenario: The merge interface should not be presented for new articles
     When I create a new article
     Then I don't see a merge form
+
+  Scenario: Nothing will be merged when the id is the same as the current article
+    When I edit an article
+    And I request a merge with the same article
+    Then the article's body is not duplicated
