@@ -41,6 +41,13 @@ Given /^the blog is set up$/ do
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
+  # Eve is a blog publisher, not an admin
+  User.create!({:login => 'eve',
+                :password => 'secret',
+                :email => 'eve@example.com',
+                :profile_id => 2,
+                :name => 'eve',
+                :state => 'active'})
 end
 
 And /^I am logged into the admin panel$/ do

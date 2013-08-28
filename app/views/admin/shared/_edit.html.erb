@@ -5,7 +5,7 @@
 
 <% end %>
 
-<% if @_action_name == 'edit' %>
+<% if @_action_name == 'edit' && current_user.admin? %>
 
    <%= render :partial => "admin/shared/merge" %>
 

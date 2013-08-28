@@ -1,5 +1,10 @@
 Given /^I am logged in as a non\-admin user$/ do
-  pending # express the regexp above with the code you wish you had
+  # User fixtures defined in web_steps.rb "Given /^the blog is set up$/ do"
+  visit '/accounts/login'
+  fill_in 'user_login', :with => 'eve'
+  fill_in 'user_password', :with => 'secret'
+  click_button 'Login'
+  page.should have_content('Login successful')
 end
 
 Then /^a submission of the merge URI must be rejected$/ do

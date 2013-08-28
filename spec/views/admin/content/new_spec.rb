@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "admin/content/new.html.erb" do
-  before do
+  before :each do
     admin = stub_model(User, :settings => {:editor => 'simple'}, :admin? => true,
                        :text_filter_name => "", :profile_label => "admin")
     blog = mock_model(Blog, :base_url => "http://myblog.net/")
@@ -36,11 +36,12 @@ describe "admin/content/new.html.erb" do
   end
 
   describe "article merge form" do
-    it "isn't rendered to a non-admin" do
-      pending 'not yet coded in app'
+
+    it "isn't rendered to a publisher" do
       #FIXME I don't think this should be the view's responsibility
       #TODO factor the next line out, as it is common to most of these tests
       assign(:macros, []); assign(:resources, []); assign(:images, [])
+      assign(:_action_name, 'edit')
       # assign a non-admin user
       publisher = stub_model(User, :settings => {:editor => 'simple'}, :admin? => false,
                              :text_filter_name => "", :profile_label => "publisher")
@@ -123,6 +124,11 @@ describe "admin/content/new.html.erb" do
       render
       forms = css_select('form') # should be 2 forms, second will be merge form
       forms[1].should match(:descendant => {:tag => 'input', :attributes => {:type => 'submit', :value => 'Merge'}})
+    end
+
+    it "will not show the 'Merge Articles' form to a contributor" do
+      assign(:macros, []); assign(:resources, []); assign(:images, [])
+      
     end
 
     it "will link to the merge action for the current article" do

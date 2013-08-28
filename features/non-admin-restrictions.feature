@@ -5,9 +5,11 @@ Feature: Security Restrictions
 
 Background:
   Given the blog is set up
-#   And I am on an article page
+  And I am logged in as a non-admin user
+
+Scenario: A non-admin does not see the merge form
+  When I edit an article
+  Then I don't see a merge form
 
 Scenario: A non-admin cannot merge articles
-  Given I am logged in as a non-admin user
-  Then I must not see a "merge_with" field	
-  And a submission of the merge URI must be rejected
+  Then a submission of the merge URI must be rejected
