@@ -635,11 +635,16 @@ describe Article do
       @first_article = Factory(:article, :body => 'first')
       @second_article = Factory(:article, :body => 'second')
     end
-    describe "merge_with method" do
-      it "will combine the text of two articles" do
-        @first_article.merge_with(@second_article.id)
-        @first_article.body.should include 'first'
-        expect(@first_article.body).to include 'second'
+    describe "#merge_with" do
+      before :each do
+        debugger
+        @merged_article = @first_article.merge_with(@second_article.id)
+      end
+      describe 'returns a merged article that' do
+        it "combines the bodies of two articles" do
+          expect(@merged_article.body).to include 'first'
+          expect(@merged_article.body).to include 'second'
+        end
       end
     end
     describe '#merge_body_with article2'  do
